@@ -1,32 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <common-slider-transition :name="direction">
+      <router-view class="center" />
+    </common-slider-transition>
+    <common-tab-bar/>
   </div>
 </template>
+<script>
+  import CommonTabBar from "./components/common/tabbar/CommonTabBar";
+  import CommonSliderTransition from "./components/common/slidertransition/CommonSliderTransition";
+  export default {
+    name:"app",
+    components:{
+      CommonTabBar,
+      CommonSliderTransition
+    },
+    data() {
+      return {
+        direction: "" // 防止抖屏
+      };
+    },
+    watch: {
+      $route(to, from) {
+        // 重定向啥类名都不加
+        if (from.path === "/") return;
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+        // 接收两个参数 一个是变化后的值
+        if (to.meta.index > from.meta.index) {
+          this.direction = "left";
+        } else {
+          this.direction = "right";
+        }
+      }
     }
   }
-}
+</script>
+<style lang="less">
+  @import "~assets/css/reset.css";
+  .center {
+    /* 脱离文档流 */
+    position: fixed;
+    width: 100%;
+    height: calc(100%);    /* 设置盒子的高度 */
+  }
 </style>
