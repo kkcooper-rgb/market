@@ -91,6 +91,8 @@ import GoodsList from "../../components/content/goodslist/GoodsList";
             },
             itemClick(){
                 console.log("6666");
+                console.log(888);
+                
             },
             imgLoad(){
                 console.log("0000");
