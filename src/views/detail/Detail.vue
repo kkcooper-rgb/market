@@ -93,7 +93,7 @@ import GoodsList from "../../components/content/goodslist/GoodsList";
                 console.log(123);
             },
             imgLoad(){
-                console.log(456);
+                console.log(456789);
             }
         }
     }
