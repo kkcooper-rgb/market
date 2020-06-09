@@ -90,7 +90,7 @@ import GoodsList from "../../components/content/goodslist/GoodsList";
                 this.recommendInfo = result.data.list;
             },
             itemClick(){
-                console.log(1);
+                console.log(123);
             },
             imgLoad(){
                 console.log(2);
