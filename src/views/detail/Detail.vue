@@ -90,10 +90,10 @@ import GoodsList from "../../components/content/goodslist/GoodsList";
                 this.recommendInfo = result.data.list;
             },
             itemClick(){
-                console.log(123);
+                console.log("000");
             },
             imgLoad(){
-                console.log(2);
+                console.log("0000");
             }
         }
     }
