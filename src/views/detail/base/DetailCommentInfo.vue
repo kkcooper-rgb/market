@@ -16,7 +16,7 @@
       <div class="info-detail">
         <p>{{commentInfo.content}}</p>
         <div class="info-other">
-          <span class="date">{{commentInfo.created}}</span>
+          <span class="date">{{commentInfo.created|formate}}</span>
           <span>{{commentInfo.style}}</span>
         </div>
 
@@ -30,7 +30,9 @@
 </template>
 
 <script>
-// import {formate} from 'utils'
+import{formate}from '../../../utils/index'
+
+// console.log(formate);
 export default {
   name: "DetailRecommendInfo",
   props:{
@@ -41,9 +43,9 @@ export default {
       }
     }
   },
-  /*filters: {
+  filters: {
     formate
-  }*/
+  }
 };
 /**
  * {{a | heaven }}
