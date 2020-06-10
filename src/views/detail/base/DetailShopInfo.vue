@@ -54,13 +54,13 @@ export default {
  *  后台的数据格式  score 是一个数组    不高亮为绿色
  *  [
  *    {
- *        isBetter:false, // 根据这个false来显示是否高亮 添加类名就行 
+ *        isBetter:false, // 根据这个false来显示是否高亮 添加类名就行
  *        name:"描述相符",
  *        score:4.62
  *    }
  *  ]
- * 
- * 
+ *
+ *
  */
 </script>
 
@@ -126,7 +126,7 @@ export default {
       }
       .better span {  // 第三列
         background-color: #4ba732;
-        padding: 0px 1.5px;
+        padding: 0 1.5px;
         color: #fff;
         text-align: center;
       }
@@ -136,7 +136,7 @@ export default {
       }
     }
   }
-  
+
   // 尾部 盒子居中方式  text-align+inline-block
   .shop-bottom {
     text-align: center; // 设置居中

@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <common-slider-transition :name="direction">
-      <router-view class="center" />
+      <keep-alive exclude="Detail">
+        <router-view class="center" />
+      </keep-alive>
     </common-slider-transition>
-    <common-tab-bar/>
+    <common-tab-bar v-if="!this.$router.path.include("etail")"/>
   </div>
 </template>
 <script>

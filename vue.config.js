@@ -6,6 +6,7 @@ module.exports = {
                "assets":"@/assets",
                "views":"@/views",
                "api":"@api",
+               "utils":"@utils"
            }
        }
     }

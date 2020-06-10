@@ -27,9 +27,9 @@ export function ShopInfo(shopInfo) {
 }
 //整合评论的数据
 export function CommentInfo(commentInfo) {
-    this.user = commentInfo.user
-    this.content = commentInfo.content
-    this.created = commentInfo.created
-    this.style = commentInfo.style
+    this.user = commentInfo.user;
+    this.content = commentInfo.content;
+    this.created = commentInfo.created;
+    this.style = commentInfo.style;
     this.images = commentInfo.images
 }
