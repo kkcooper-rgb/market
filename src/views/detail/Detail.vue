@@ -7,15 +7,15 @@
             <!-- 商品信息 -->
             <detail-goods-info :goods-info="goodsInfo"/>
             <!-- 商家信息 遵循风格指南烤串形式-->
-            <detail-shop-info :shop-info="shopInfo" />
+            <detail-shop-info :shop-info="shopInfo"/>
             <!-- 商品图片信息 -->
             <detail-img-info :detail-img-info="detailImgInfo" @imgLoad="imgLoad"/>
             <!-- 尺寸信息 -->
-            <detail-params :params-info="paramsInfo" ref="params" />
+            <detail-params :params-info="paramsInfo" ref="params"/>
             <!-- 评论信息 -->
-            <detail-comment-info :comment-info="commentInfo" ref="comment" />
+            <detail-comment-info :comment-info="commentInfo" ref="comment"/>
             <!-- 推荐 -->
-            <goods-list :goods="recommendInfo" ref="recommend" />
+            <goods-list :goods="recommendInfo" ref="recommend"/>
         </common-scroll>
         <!-- 底部导航组件 -->
         <detail-bottom-bar @addMarket="addMarket"/>
@@ -25,21 +25,22 @@
 </template>
 
 <script>
-import {reqDetails, GoodsInfo,ShopInfo,CommentInfo,reqRecommends} from "../../api/detail";
-import DetailNavBar from "./base/DetailNavBar";
-import CommonSwiper from "../../components/common/swiper/CommonSwiper";
-import DetailGoodsInfo from "./base/DetailGoodsInfo";
-import DetailShopInfo from "./base/DetailShopInfo";
-import CommonScroll from "../../components/common/myScroll/CommonScroll";
-import DetailImgInfo from "./base/DetailImgInfo";
-import DetailParams from "./base/DetailParams";
-import DetailCommentInfo from "./base/DetailCommentInfo";
-import GoodsList from "../../components/content/goodslist/GoodsList";
-import DetailBottomBar from "./base/DetailBottomBar";
-import BackTop from "../../components/content/backtop/BackTop";
+    import {reqDetails, GoodsInfo, ShopInfo, CommentInfo, reqRecommends} from "../../api/detail";
+    import DetailNavBar from "./base/DetailNavBar";
+    import CommonSwiper from "../../components/common/swiper/CommonSwiper";
+    import DetailGoodsInfo from "./base/DetailGoodsInfo";
+    import DetailShopInfo from "./base/DetailShopInfo";
+    import CommonScroll from "../../components/common/myScroll/CommonScroll";
+    import DetailImgInfo from "./base/DetailImgInfo";
+    import DetailParams from "./base/DetailParams";
+    import DetailCommentInfo from "./base/DetailCommentInfo";
+    import GoodsList from "../../components/content/goodslist/GoodsList";
+    import DetailBottomBar from "./base/DetailBottomBar";
+    import BackTop from "../../components/content/backtop/BackTop";
+
     export default {
         name: "Detail",
-        components:{
+        components: {
             DetailNavBar,
             CommonSwiper,
             DetailGoodsInfo,
@@ -52,26 +53,26 @@ import BackTop from "../../components/content/backtop/BackTop";
             DetailBottomBar,
             BackTop
         },
-        data(){
-          return{
-              banner:[],
-              goodsInfo: {}, // 存放good组件的数据
-              shopInfo: {}, // 商家信息
-              detailImgInfo: {}, // 商品图片信息
-              paramsInfo: {}, // 尺寸信息
-              commentInfo:{},// 评论信息
-              recommendInfo: [], // 推荐信息
-              offsetTopList: [0], // 存放商品参数评论推荐组件距离定位父级的值
-              isShow:false
-          }
+        data() {
+            return {
+                banner: [],
+                goodsInfo: {}, // 存放good组件的数据
+                shopInfo: {}, // 商家信息
+                detailImgInfo: {}, // 商品图片信息
+                paramsInfo: {}, // 尺寸信息
+                commentInfo: {},// 评论信息
+                recommendInfo: [], // 推荐信息
+                offsetTopList: [0], // 存放商品参数评论推荐组件距离定位父级的值
+                isShow: false
+            }
         },
         created() {
             this.getDetails(this.$route.params.iid);
             this.getRecommends()
         },
-        methods:{
-            async getDetails(iid){
-              const {result}= await reqDetails(iid);
+        methods: {
+            async getDetails(iid) {
+                const {result} = await reqDetails(iid);
                 this.banner = result.itemInfo.topImages;
                 // 商品信息
                 this.goodsInfo = new GoodsInfo(
@@ -97,12 +98,12 @@ import BackTop from "../../components/content/backtop/BackTop";
                 this.recommendInfo = result.data.list;
             },
             // 绑定事件 获取子组件的数据
-            itemClick(index){
+            itemClick(index) {
                 // console.log(index);
                 //如何获取  不同index对应的高度
-                this.$refs.scroll.scroll.scrollTo(0,-this.offsetTopList[index],300);
+                this.$refs.scroll.scroll.scrollTo(0, -this.offsetTopList[index], 300);
             },
-            imgLoad(count){
+            imgLoad(count) {
                 // 等图片加载完后获取到可滚动区域（距离父级的高度）的offsetTop值
                 this.offsetTopList = [0]; // 每次点击都为最初值
                 this.offsetTopList.push(
@@ -112,30 +113,41 @@ import BackTop from "../../components/content/backtop/BackTop";
                 );
                 // console.log(`加载了${count}张图片`,this.offsetTopList)
             },
-            getPosition(position){
+            getPosition(position) {
                 //监听滚动的高度
                 const positionY = -position.y;
                 //返回顶部按钮显示与隐藏
                 this.isShow = positionY > 1000;
                 // console.log(positionY);
                 //navbar跳转的组件高度进行结构赋值
-                const [zero,paramsOffsetTop,commentOffsetTop,goodsOffsetTop] = this.offsetTopList
-                if(positionY>=zero&&positionY<paramsOffsetTop){
-                    this.$refs.navbar.currentIndex=0
-                }else if(positionY>=paramsOffsetTop&&positionY<commentOffsetTop){
-                    this.$refs.navbar.currentIndex=1
-                }else if(positionY>=commentOffsetTop&&positionY<goodsOffsetTop){
-                    this.$refs.navbar.currentIndex=2
-                }else if(positionY>=goodsOffsetTop){
-                    this.$refs.navbar.currentIndex=3
+                const [zero, paramsOffsetTop, commentOffsetTop, goodsOffsetTop] = this.offsetTopList
+                if (positionY >= zero && positionY < paramsOffsetTop) {
+                    this.$refs.navbar.currentIndex = 0
+                } else if (positionY >= paramsOffsetTop && positionY < commentOffsetTop) {
+                    this.$refs.navbar.currentIndex = 1
+                } else if (positionY >= commentOffsetTop && positionY < goodsOffsetTop) {
+                    this.$refs.navbar.currentIndex = 2
+                } else if (positionY >= goodsOffsetTop) {
+                    this.$refs.navbar.currentIndex = 3
                 }
             },
-            backTop(){
+            backTop() {
                 //回到顶部
-                this.$refs.scroll.scroll.scrollTo(0,0,1000)
+                this.$refs.scroll.scroll.scrollTo(0, 0, 1000)
             },
-            addMarket(){
-
+            addMarket() {//把商品数据添加到购物车里面
+                //整合商品信息
+                const product = {};
+                product.image = this.banner[0];
+                product.title = this.goodsInfo.title;
+                product.desc = this.goodsInfo.desc;
+                product.price = this.goodsInfo.realPrice;
+                product.iid = this.$route.params.iid;
+                // console.log(product);
+                // 触发修改仓库的commit动作 仓库的数据只能由仓库修改
+                this.$store.commit('addMarket',product);
+                //根据这个iid值去仓库中找到这个产品，然后返回count的数量弹框显示
+                let findProduct = this.$store.getters.count(product.iid);
             }
         }
     }
@@ -144,8 +156,8 @@ import BackTop from "../../components/content/backtop/BackTop";
 <style scoped lang="less">
     // 设置myScroll组件的样式 可以获取myScroll的第一个类名
     .wrapper {
-    // 设置滚动内容
-    position: fixed;
+        // 设置滚动内容
+        position: fixed;
         top: 44px;
         bottom: 48px;
         left: 0;

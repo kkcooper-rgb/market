@@ -140,7 +140,6 @@
         // 在使用该组件是可以获取common-nav-bar的第一个类名的
         .common-nav-bar {
             background-color: @themeColor;
-            font-weight: bold;
             color: #fff;
 
         }
