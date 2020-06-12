@@ -148,6 +148,8 @@
                 this.$store.commit('addMarket',product);
                 //根据这个iid值去仓库中找到这个产品，然后返回count的数量弹框显示
                 let findProduct = this.$store.getters.count(product.iid);
+                //插件形式 无需注册
+                this.$toast.show(`当前购物车中数量为${findProduct}`)
             }
         }
     }

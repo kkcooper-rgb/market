@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// 自己的插件
+import ToastPlugin from  './plugins/toast/index'
+Vue.use(ToastPlugin);
+
 //全局引入awesome-swiper 轮播插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'

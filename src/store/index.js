@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     products:JSON.parse(localStorage.getItem("products"))||[],//存储所有的商品
+    userInfo: JSON.parse(localStorage.getItem('userInfo')) || [] // 存储用户信息
   },
   mutations: {//定义修改store数据的方法
     addMarket(state,payload){
@@ -32,6 +33,15 @@ const store = new Vuex.Store({
       const product = state.products.find(item=>item.iid ===payload);
       // console.log(product);
       product.checked = !product.checked
+    },
+    //点击全选按钮修改商品的checked
+    updateProductAllCheck(state,payload){
+      // 把商品的checked修改为传递的值
+      state.products.forEach(item=>item.checked=payload)
+    },
+    // 清空仓库的数据
+    deleteProducts(state,payload){
+      state.products=[]
     }
   },
   getters:{
@@ -45,7 +55,24 @@ const store = new Vuex.Store({
     //计算state的products的数组长度
     productsLength(state){
       return state.products.length
-    }
+    },
+    //全选按钮是否选中
+    isCheckAll(state){
+      // every() 检测数组所有元素是否都符合指定条件 满足返回true 不会改变原始数组
+      return state.products.every(item=>item.checked === true)
+    },
+    //计算所有选中商品的价格总和
+    total(state){
+      return state.products.reduce((pre,next)=>{
+        // 计算数组中对象的值必须给0，给了初始值第一圈是0  选中了才计算价格
+        // mdn中查看优先级 加括号提升?的优先级
+        return pre+(next.checked?next.count*next.price:0)
+      },0)
+    },
+    // 选中商品的种类数量
+    selectProductsLength(state) {
+      return state.products.filter(item => item.checked === true).length
+    },
   },
   actions: {
   },
@@ -58,6 +85,6 @@ const store = new Vuex.Store({
 store.subscribe(function (mutations, state) {
   // console.log(mutations, state);
   // 存储数据到本地  数据改变后存储数据
-  localStorage.setItem("products",JSON.stringify(state.products))
+  localStorage.setItem("products",JSON.stringify(state.products));
 });
 export default store

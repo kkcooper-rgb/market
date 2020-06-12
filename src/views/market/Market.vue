@@ -3,18 +3,25 @@
         <common-nav-bar>
             <template #middle>购物车({{$store.getters.productsLength}})</template>
         </common-nav-bar>
-        <market-product-list/>
+        <common-scroll>
+            <market-product-list/>
+        </common-scroll>
+        <market-bottom-bar/>
     </div>
 </template>
 
 <script>
     import CommonNavBar from "../../components/common/navbar/CommonNavBar";
+    import CommonScroll from "../../components/common/myScroll/CommonScroll";
     import MarketProductList from "./base/MarketProductList";
+    import MarketBottomBar from "./base/MarketBottomBar";
     export default {
         name: "Market",
         components:{
             CommonNavBar,
-            MarketProductList
+            CommonScroll,
+            MarketProductList,
+            MarketBottomBar
         }
     }
 </script>
