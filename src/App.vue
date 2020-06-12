@@ -5,7 +5,7 @@
         <router-view class="center" />
       </keep-alive>
     </common-slider-transition>
-    <common-tab-bar v-if="!this.$router.path.include("etail")"/>
+    <common-tab-bar v-if="!$route.path.includes('detail')"/>
   </div>
 </template>
 <script>
