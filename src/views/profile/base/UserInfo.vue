@@ -50,6 +50,7 @@ export default {
     },
     methods: {
         handleLogin() {
+            console.log(this.$router,this.$route);
             this.$router.push('/login')
         }
     },

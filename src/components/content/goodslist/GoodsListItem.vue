@@ -33,7 +33,7 @@
                 const id = this.itemData.iid;
                 // console.log(id)
                 // 如果是home组件的goodListitem组件才跳转
-                if(this.$route.path.includes('home')){ // 判断一个数组/字符串是否包含一个指定的值
+                if(this.$route.path.includes('home')||this.$route.path.includes('category')){ // 判断一个数组/字符串是否包含一个指定的值
                     this.$router.push(`/detail/${id}`)
                 }
             }

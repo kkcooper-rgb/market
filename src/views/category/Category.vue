@@ -5,27 +5,58 @@
         </common-nav-bar>
         <!-- 左侧导航栏 + 滚动区 -->
         <common-scroll class="container1">
-            <category-left-nav :categorys="category" @itemClick="itemClick"/>
+            <category-left-nav :categorys="categorys" @itemClick="itemClick"/>
+        </common-scroll>
+        <!-- 右侧滚动区 -->
+        <common-scroll class="container2">
+            <category-grid-view :subcategory="subcategory"  :cols="3"/>
+            <tab-control :titles="Object.values(types)" @tabClick="tabClick"/>
+            <goods-list :goods="goods[currentType].list"/>
         </common-scroll>
     </div>
 </template>
 
 <script>
-    import {reqCategory,reqSubcategory}from "../../api/category"
-    import CommonNavBar from "../../components/common/navbar/CommonNavBar";
+    import {reqCategory,reqSubcategory,reqCategoryDetail}from "../../api/category"
+    import CommonNavBar from "components/common/navbar/CommonNavBar";
+    import CommonScroll from "components/common/myScroll/CommonScroll";
     import CategoryLeftNav from "./base/CategoryLeftNav";
-    import CommonScroll from "../../components/common/myScroll/CommonScroll";
+    import CategoryGridView from "./base/CategoryGridView";
+    import TabControl from "../../components/content/tabcontrol/TabControl";
+    import GoodsList from "../../components/content/goodslist/GoodsList";
     export default {
         name: "Category",
         components:{
             CommonNavBar,
             CategoryLeftNav,
-            CommonScroll
+            CommonScroll,
+            CategoryGridView,
+            TabControl,
+            GoodsList
         },
         data(){
             return{
-                category:[],// 存储左侧滚动区域的数据
+                categorys:[],// 存储左侧滚动区域的数据
+                subcategory:[], // 储存右侧subcategory(顶部)的数据
                 currentIndex:0,  // 记录leftnav点击的index值
+                currentType:'pop',
+                // typeList:['pop','new','sell'],  // 定义商品类型的数据
+                types:{
+                    pop:'综合',
+                    new:'新品',
+                    sell:'精选'
+                },
+                goods: {        // 存放商品数据
+                    pop: {
+                        list: [],   // 流行选项  对应的数据
+                    },
+                    new: {
+                        list: [],   // 新款的数据
+                    },
+                    sell: {
+                        list: [],   // 精选的数据
+                    }
+                }
             }
         },
         created() {
@@ -38,10 +69,40 @@
                 const result = await reqCategory();
                 // console.log(result);
                 // 请求左侧导航栏的数据 给leftNav渲染
-                this.category= result.data.category.list
+                this.categorys = result.data.category.list;
+                //请求右侧格子的数据
+                this.getSubcategory();
+                //请求右侧下面的数据  用于渲染GoodsList  基于指定商品的miniWallkey
+                // this.getSubcategoryDetail("pop");
+                // this.getSubcategoryDetail("sell");
+                // this.getSubcategoryDetail("new");
+                Object.keys(this.types).forEach(type=>this.getSubcategoryDetail(type))
             },
             itemClick(index){
+                if(index===this.currentIndex)return ; //  当已经点击了左侧分类的按钮时候，第二次就不再获取数据了
+                // 在本组件用以一个值记录着你当前点击左侧导航栏下的categorys数组对应的索引
+                this.currentIndex = index;
+                // 点击的时候获取上面的数据  CategoryGridView渲染
+                this.getSubcategory();
+                // 简写 请求右侧下面的数据 渲染goodList组件 基于指定商品的miniWallKey值
+                Object.keys(this.types).forEach(type=>this.getSubcategoryDetail(type));//请求右侧下面的数据  用于渲染GoodsList  基于指定商品的miniWallkey
 
+            },
+            async getSubcategory(){
+                const {maitKey} = this.categorys[this.currentIndex];
+                const result = await reqSubcategory(maitKey);
+                this.subcategory = result.data.list;
+
+            },
+            tabClick(index){
+                // 点击的时候改变typeList的值 根据商品类型不同然后显示不同的数据
+                // this.currentType = this.typeList[index];
+                this.currentType = Object.keys(this.types)[index];
+            },
+            async getSubcategoryDetail(type){
+                const {miniWallkey} = this.categorys[this.currentIndex];
+                const result = await reqCategoryDetail(miniWallkey,type);
+                this.goods[type].list = result; // 将结果赋值给goods对应的数组中
             }
         }
     }
