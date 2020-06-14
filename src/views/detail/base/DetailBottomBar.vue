@@ -34,14 +34,13 @@
         methods: {
             addMarket() {
                 // 点击按钮通知detail组件把goodinfo存进vuex仓库 子组件与父组件通信
-                this.$emit("addMarket");
+                // this.$emit("addMarket");
                 // 函数节流
-               /* let now = new Date();
-                if(now - this.initNow>=1000){
-                    // console.log(1,new Date().toLocaleString())
+                let now = new Date();
+                if(now-this.initNow>=1000){
                     this.$emit("addMarket");
                     this.initNow = now
-                }*/
+                }
             }
         }
     };
